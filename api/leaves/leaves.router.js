@@ -243,6 +243,45 @@ const router=express.Router()
  *         description: leaves not found
  *       500:
  *         description: Server error
+ * 
+ * /leaves/update:
+ *   post:
+ *     summary: updates the leave
+ *     tags: [leaves]
+ *     description: updates leave based on leave id
+ *     requestBody:
+ *       description: id and status of leave
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: int
+ *                 example: 1
+ *               status:
+ *                 type: string
+ *                 example: approved
+ *     responses:
+ *       '200':
+ *         description: Returns a success  and message 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: int
+ *                   example: 1
+ *                 message:
+ *                   type: string
+ *                   example: leave approved successfully
+ *                 
+ *       404:
+ *         description: leaves not found
+ *       500:
+ *         description: Server error
  */
 
 
