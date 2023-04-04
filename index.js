@@ -9,7 +9,6 @@ const payslipRouter=require('./api/payslips/payslips.router')
 require('dotenv').config()
 const { setupPayslipCronJob } = require('./api/payslips/payslipcron')
 const cors=require("cors");
-const swaggerSetup = require('./Docs/swagger')
 const corsOptions ={
    origin:'*', 
    credentials:true,            //access-control-allow-credentials:true

@@ -195,7 +195,7 @@ const upload = multer();
  *                         type: file
  *                         example: aadhar.pdf
  *       404:
- *         description: Employee not found
+ *         description: document not found
  *       500:
  *         description: Server error
  * 
@@ -251,7 +251,7 @@ const upload = multer();
  *                         type: file
  *                         example: aadhar.pdf
  *       404:
- *         description: Employee not found
+ *         description: document not found
  *       500:
  *         description: Server error
  */
