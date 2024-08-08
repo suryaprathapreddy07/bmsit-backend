@@ -267,7 +267,7 @@ const upload = multer();
 
 
 
-router.post('/upload',upload.single('file'),checkToken,uploadFile)
+router.post('/upload',upload.single('file'),checkToken,adminMiddleware,uploadFile)
 // endpoint to get all documents
 router.get('/',checkToken,getAllFiles)
 // endpoint to get all the docs of specific employee

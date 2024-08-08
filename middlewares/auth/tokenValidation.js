@@ -2,6 +2,7 @@ const {verify}=require('jsonwebtoken')
 module.exports={
     checkToken:(req,res,next)=>{
         let token=req.headers.authorization
+        console.log(req.headers)
         if(token){
             token=token.split(' ')[1]
             verify(token,'jwt123',(err,decoded)=>{

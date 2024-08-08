@@ -1,71 +1,72 @@
-const { upload, getAll, getById, getAllById } = require("./documents.model")
+const { upload, getAll, getById, getAllById } = require("./documents.model");
 
-module.exports={
-    uploadFile:(req,res)=>{
-        data={body:req.body,file:req.file}
-        upload(data,(err,results)=>{
-            if(err){
-                return res.status(500).json({
-                    success:0,
-                    message:'unable to upload file'
-                })
-            }
-            return res.status(200).json({
-                success:1,
-                message:'document uploaded successfully',
-                data:results
-            })
-        })
-    },
-    getAllFiles:(req,res)=>{
-        getAll((err,results)=>{
-            if(err){
-               return res.status(404).json({
-                    success:0,
-                    message:'Unable to fetch documents'
-                })
-            }
-    //         res.setHeader('Content-Disposition', `attachment; filename="${results.name}"`);
-    //   res.setHeader('Content-Type', 'application/pdf');
+module.exports = {
+  uploadFile: async (req, res) => {
+    try {
+      const data = { body: req.body, file: req.file };
+      const results = await upload(data);
       return res.status(200).json({
-        success:1,
-        data:results
+        success: 1,
+        message: 'Document uploaded successfully',
+        data: results
       });
-            
-        })
-       
-    },
-    getAllFilesById:(req,res)=>{
-        const id=req.body.id
-        getAllById(id,(err,results)=>{
-            if(err){
-               return res.status(404).json({
-                    success:0,
-                    message:'Unable to fetch documents'
-                })
-            }
-      return res.status(200).json({
-        success:1,
-        data:results
+    } catch (err) {
+      return res.status(500).json({
+        success: 0,
+        message: 'Unable to upload file'
       });
-            
-        })
-       
-    },
-
-    getFileById:(req,res)=>{
-        id=req.params.id
-        getById(id,(err,results)=>{
-            if(err){
-                return res.status(404).json({
-                    success:0,
-                    message:'Unable to fetch documents'
-                })
-            }
-            res.setHeader('Content-Disposition', `attachment; filename="${results.name}"`);
-      res.setHeader('Content-Type', 'application/pdf');
-      return res.send(results[0].file);
-
-        })
     }
-}
+  },
+
+  getAllFiles: async (req, res) => {
+    try {
+      const results = await getAll();
+      return res.status(200).json({
+        success: 1,
+        data: results
+      });
+    } catch (err) {
+      return res.status(404).json({
+        success: 0,
+        message: 'Unable to fetch documents'
+      });
+    }
+  },
+
+  getAllFilesById: async (req, res) => {
+    try {
+      const id = req.body.id;
+      const results = await getAllById(id);
+      return res.status(200).json({
+        success: 1,
+        data: results
+      });
+    } catch (err) {
+      return res.status(404).json({
+        success: 0,
+        message: 'Unable to fetch documents'
+      });
+    }
+  },
+
+  getFileById: async (req, res) => {
+    try {
+      const id = req.params.id;
+      const result = await getById(id);
+      if (!result) {
+        return res.status(404).json({
+          success: 0,
+          message: 'Document not found'
+        });
+      }
+      res.setHeader('Content-Disposition', `attachment; filename="${result.name}"`);
+      res.setHeader('Content-Type', 'application/pdf');
+      return res.send(result.file);
+    } catch (err) {
+      return res.status(404).json({
+        success: 0,
+        message: 'Unable to fetch document'
+      });
+    }
+  }
+};
