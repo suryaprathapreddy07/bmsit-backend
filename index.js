@@ -1,13 +1,10 @@
 const express=require('express')
 const app=express()
-const sql=require('mysql2')
-const employeeRouter=require('./api/employees/employees.router')
-const leavesRouter=require('./api/leaves/leaves.router')
+const employeeRouter=require('./api/users/users.router')
 const documentsRouter=require('./api/documents/documents.router')
-const payslipRouter=require('./api/payslips/payslips.router')
+const connectDB = require('./config/database');
 
 require('dotenv').config()
-const { setupPayslipCronJob } = require('./api/payslips/payslipcron')
 const cors=require("cors");
 const corsOptions ={
    origin:'*', 
@@ -29,16 +26,10 @@ app.get('/api',(req,res)=>{
 })
 
 // using employee router
-app.use('/api/employees',employeeRouter)
-// using leaves router
-app.use('/api/leaves',leavesRouter)
+app.use('/api/users',employeeRouter)
 // using documents router
 app.use('/api/documents',documentsRouter)
-// using payslips router
-app.use('/api/payslips',payslipRouter)
 
-// method which calls cron job
-setupPayslipCronJob()
 
 
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -66,7 +57,8 @@ const swaggerOptions = {
   const swaggerDocs = swaggerJsdoc(swaggerOptions);
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-
+// connecting to database
+connectDB();
 
 // listening to server
 app.listen(

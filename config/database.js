@@ -1,13 +1,28 @@
-const sql=require('mysql2')
-require('dotenv').config()
+var mongoose = require("mongoose");
+var dotenv = require("dotenv");
 
+dotenv.config();
 
-const pool=sql.createPool({
-    host:process.env.DB_HOST,
-    user:process.env.DB_USER,
-    password:process.env.DB_PASSWORD,
-    database:process.env.DB_NAME,
-    connectionLimit:10
-})
+function connectDB() {
+  var url = process.env.MONGODB_URI;
 
-module.exports=pool
+  if (!url) {
+    console.error("MongoDB URI is not defined in environment variables");
+    process.exit(1);
+  }
+
+  mongoose.connect(url).then(function() {
+    console.log("Database connected: " + url);
+  }).catch(function(err) {
+    console.error("Connection error: " + err.message);
+    process.exit(1);
+  });
+
+  var dbConnection = mongoose.connection;
+
+  dbConnection.on("error", function(err) {
+    console.error("Connection error: " + err);
+  });
+}
+
+module.exports = connectDB;
