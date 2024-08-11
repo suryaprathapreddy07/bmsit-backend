@@ -6,6 +6,11 @@ const documentSchema = new mongoose.Schema({
     required: true,
     ref: 'User'
   },
+  club_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Club'
+  },
   name: {
     type: String,
     required: true
@@ -31,6 +36,7 @@ module.exports = {
     try {
       const document = new Document({
         doc_user_id: data.body.doc_user_id,
+        club_id: data.body.club_id,
         name: data.body.name,
         description: data.body.description,
         createdDate: new Date(+data.body.createdDate),
@@ -46,7 +52,7 @@ module.exports = {
 
   getAll: async () => {
     try {
-      const results = await Document.find().populate('doc_user_id');
+      const results = await Document.find().populate('doc_user_id').populate('club_id');
       return results;
     } catch (err) {
       console.error(err);
@@ -56,7 +62,7 @@ module.exports = {
 
   getAllById: async (id) => {
     try {
-      const results = await Document.find({ doc_user_id: id }).select('-file');
+      const results = await Document.find({ doc_user_id: id }).select('-file').populate('club_id');
       return results;
     } catch (err) {
       console.error(err);
@@ -66,8 +72,17 @@ module.exports = {
 
   getById: async (id) => {
     try {
-      const result = await Document.findById(id);
+      const result = await Document.findById(id).populate('club_id');
       return result;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  },
+  getAllByClubId: async (clubId) => {
+    try {
+      const results = await Document.find({ club_id: clubId }).populate('doc_user_id');
+      return results;
     } catch (err) {
       console.error(err);
       throw err;

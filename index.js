@@ -2,6 +2,7 @@ const express=require('express')
 const app=express()
 const employeeRouter=require('./api/users/users.router')
 const documentsRouter=require('./api/documents/documents.router')
+const clubsRouter=require('./api/clubs/clubs.router')
 const connectDB = require('./config/database');
 
 require('dotenv').config()
@@ -29,6 +30,8 @@ app.get('/api',(req,res)=>{
 app.use('/api/users',employeeRouter)
 // using documents router
 app.use('/api/documents',documentsRouter)
+// using clubs router
+app.use('/api/clubs',clubsRouter)
 
 
 

@@ -1,4 +1,4 @@
-const { upload, getAll, getById, getAllById } = require("./documents.model");
+const { upload, getAll, getById, getAllById,getAllByClubId } = require("./documents.model");
 
 module.exports = {
   uploadFile: async (req, res) => {
@@ -66,6 +66,21 @@ module.exports = {
       return res.status(404).json({
         success: 0,
         message: 'Unable to fetch document'
+      });
+    }
+  },
+  getAllFilesByClubId: async (req, res) => {
+    try {
+      const clubId = req.params.clubId;
+      const results = await getAllByClubId(clubId);
+      return res.status(200).json({
+        success: 1,
+        data: results
+      });
+    } catch (err) {
+      return res.status(404).json({
+        success: 0,
+        message: 'Unable to fetch documents'
       });
     }
   }
