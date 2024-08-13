@@ -1,5 +1,5 @@
 const express=require('express')
-const { uploadFile, getAllFiles, getFileById, getAllFilesById } = require('./documents.controller')
+const { uploadFile, getAllFiles, getFileById, getAllFilesById ,getAllFilesByClubId} = require('./documents.controller')
 const { checkToken } = require('../../middlewares/auth/tokenValidation')
 const {adminMiddleware}=require('../../middlewares/RBAC/permissions')
 const router=express.Router()
@@ -274,6 +274,12 @@ router.get('/',checkToken,getAllFiles)
 router.post('/empdocs',checkToken,getAllFilesById)
 // endpoint to get document by id
 router.get('/:id',checkToken,getFileById)
+
+router.get('/clubs/:clubId',checkToken,getAllFilesByClubId)
+
+
+
+
 
 
 
