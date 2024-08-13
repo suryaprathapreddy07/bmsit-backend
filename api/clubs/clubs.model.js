@@ -10,7 +10,7 @@ const clubSchema = new mongoose.Schema({
     required: true
   },
   image: {
-    type: Buffer,
+    type: String,
     required: true
   },
   instagram: {
@@ -39,14 +39,7 @@ const Club = mongoose.model('Club', clubSchema);
 module.exports = {
   create: async (data) => {
     try {
-      const club = new Club({
-        name: data.body.name,
-        description: data.body.description,
-        image: data.file.buffer,
-        instagram: data.body.instagram,
-        linkedin: data.body.linkedin,
-        facebook: data.body.facebook
-      });
+      const club = new Club(data);
       const result = await club.save();
       return result;
     } catch (err) {

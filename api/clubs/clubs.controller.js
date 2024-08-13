@@ -3,10 +3,8 @@ const { create, getAll, getById } = require("./clubs.model");
 module.exports = {
   createClub: async (req, res) => {
     try {
-      const data = { body: req.body, file: req.file };
-      console.log(data,'-----------------------------------------------------------------')
-      console.log(req,'-----------------------------------------------------------------')
-      const results = await create(data);
+      console.log(req.body,'---------------------------------------------------------')
+      const results = await create(req.body);
       return res.status(200).json({
         success: 1,
         message: 'Club created successfully',

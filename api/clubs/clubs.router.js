@@ -7,7 +7,7 @@ const multer = require('multer');
 const upload = multer();
 
 // Route to create a new club
-router.post('/',upload.single('image'),checkToken,adminMiddleware ,createClub);
+router.post('/',checkToken ,adminMiddleware,createClub);
 
 // Route to get all clubs
 router.get('/',checkToken, getAllClubs);
